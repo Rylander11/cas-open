@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Opening…</title>
+<style>body{font:16px -apple-system,"Segoe UI",sans-serif;margin:48px;color:#1f1f1f}a{color:#f47b20}</style>
+</head>
+<body>
+<p id="m">Opening…</p>
+<script>
+// CAS bid board launcher: opens a SharePoint file in desktop Revu / Word / Excel.
+// The bid board (claude.ai) can't launch desktop-app links itself, so it opens this page
+// as  open.html#<app link>  and this page launches it. Only SharePoint links are accepted.
+const OK = /^(openspinrevu:|ms-word:ofe\|u\||ms-excel:ofe\|u\||ms-powerpoint:ofe\|u\|)https:\/\/[a-z0-9-]+\.sharepoint\.com\//i;
+const m = document.getElementById("m");
+let t = "";
+try { t = decodeURIComponent(location.hash.slice(1)); } catch (e) {}
+if (OK.test(t)) {
+  location.href = t;
+  m.innerHTML = 'Opening in the desktop app. You can close this tab.<br><br><small>Nothing happened? <a id="again" href="#">Try again</a></small>';
+  document.getElementById("again").href = t;
+  setTimeout(() => window.close(), 3000);
+} else {
+  m.textContent = "That link isn't allowed. This page only opens CAS SharePoint files.";
+}
+</script>
+</body>
+</html>
